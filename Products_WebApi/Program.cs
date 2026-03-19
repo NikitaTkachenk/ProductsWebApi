@@ -7,10 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IValidator<CreateProductRequest>, CreateProductRequestValidator>();
+builder.Services.AddScoped<IValidator<UpdateProductRequest>, UpdateProductRequestValidator>();
 
 var app = builder.Build();
 
