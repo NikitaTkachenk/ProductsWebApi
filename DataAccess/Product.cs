@@ -1,4 +1,4 @@
-namespace Products_WebApi.Entity;
+namespace DataAccess;
 
 public class Product
 {

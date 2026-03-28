@@ -4,7 +4,6 @@ using Products_WebApi.DTO.Requests;
 using Products_WebApi.ProductValidators;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 
 builder.Services.AddEndpointsApiExplorer();

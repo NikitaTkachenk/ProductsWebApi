@@ -9,10 +9,10 @@ using Products_WebApi.DataBaseJson;
 namespace Products_WebApi.Controllers;
 
 [ApiController]
-[Route("controller")]
+[Route("products")]
 public class ProductsController(IValidator<CreateProductRequest> createValidator, IValidator<UpdateProductRequest> updateValidator) : ControllerBase
 {
-    [HttpGet("all")]
+    [HttpGet]
     public IActionResult GetAllItems()
     {
         if(Data._products is null)
@@ -23,7 +23,7 @@ public class ProductsController(IValidator<CreateProductRequest> createValidator
     }
 
     [HttpGet("id")]
-    public IActionResult GetById([FromQuery]int id)
+    public IActionResult GetByIdAsync([FromQuery]int id)
     {
         if (Data._products==null)
             return BadRequest();
@@ -32,10 +32,22 @@ public class ProductsController(IValidator<CreateProductRequest> createValidator
             return BadRequest(404);
             
         var product = Data._products.FirstOrDefault(p => p.Id == id);
+        
         return Ok(product);
     }
 
-    [HttpPost("create")]
+    [HttpGet("byprice")]
+    public IActionResult GetByFromTo([FromQuery]int from, [FromQuery]int to)
+    {
+        if(Data._products is null)
+            return BadRequest();
+        
+        var products = Data._products.Where(p => p.Price > from && p.Price < to);
+        
+        return Ok(products);
+    }
+
+    [HttpPost("add")]
     public IActionResult CreateProduct([FromBody] CreateProductRequest request)
     {
         createValidator.ValidateAndThrow(request);
@@ -63,7 +75,7 @@ public class ProductsController(IValidator<CreateProductRequest> createValidator
         return Ok(product);
     }
 
-    [HttpPost("update")]
+    [HttpPost("id")]
     public IActionResult UpdateProductById([FromBody] UpdateProductRequest request,  [FromQuery]int id)
     {
         updateValidator.ValidateAndThrow(request);
@@ -83,7 +95,7 @@ public class ProductsController(IValidator<CreateProductRequest> createValidator
         return Ok(product);
     }
 
-    [HttpDelete("delete")]
+    [HttpDelete("id")]
     public IActionResult DeleteProductById([FromQuery] int id)
     {
         if(Data._products is null)
