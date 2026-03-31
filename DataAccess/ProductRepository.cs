@@ -20,11 +20,16 @@ public class ProductRepository(ProductContext productContext)
         await productContext.Users.AddAsync(new User
         {
             Name = "Nikita",
+            SecondName = "Tkachenko",
+            isAdmin =  true,
             Products = new List<Product>
             {
                 new Product
                 {
                     Name = "Guitar MX-5"
+                    , Category = "Music"
+                    , Price = 4699
+                    , CreatedAt = DateTime.UtcNow
                 }
             }
         });
